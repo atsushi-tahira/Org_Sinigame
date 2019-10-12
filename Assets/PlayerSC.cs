@@ -15,7 +15,7 @@ public class PlayerSC : MonoBehaviour
     public bool isGuard;
     bool isClear;
     public static int playerAttack = 1;
-    int playerDifence = 0;
+    public static int playerDifence = 0;
 
     public int playerHP = 10;
     public GameObject gameEndText;
@@ -68,8 +68,7 @@ public class PlayerSC : MonoBehaviour
             time += Time.deltaTime;
             if (time > 1f && !nowEnemy.isDead)
             {
-                nowEnemy.Damaged(playerAttack);
-                Debug.Log("●●●●●プレイヤーの攻撃。敵HP -" + playerAttack);
+                nowEnemy.Damaged(playerAttack);;
                 time = 0;
             } 
         }
@@ -124,12 +123,16 @@ public class PlayerSC : MonoBehaviour
     public void Damaged(int d)
     {
         //ガードスキルが発動してる場合はダメージを無効化
-        if (!isGuard)
-        {
-            playerHP -= d;
-        } else
+        if (isGuard)
         {
             Debug.Log("敵の攻撃を防いだ！");
+        }
+        else
+        {
+            //ダメージ量を計算
+            int hitDamage = Mathf.Clamp(d - playerDifence,0,d);
+            playerHP -= hitDamage;
+            Debug.Log("○○○○○敵の攻撃。" + hitDamage + " ダメージを食らった。");
         }
     }
 

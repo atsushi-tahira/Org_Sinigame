@@ -22,13 +22,11 @@ public class EnemySC : MonoBehaviour
     {
         if (this.gameObject.name == "Enemy")
         {
-            enemyLog = "○○○○○敵１の攻撃。プレイヤーのHP -1";
             enemyDeath = "敵１を倒した！";
             enemyAttack = 1;
         }
         else if (this.gameObject.name == "Boss")
         {
-            enemyLog = "○○○○○ボスの攻撃。プレイヤーのHP -3";
             enemyDeath = "ボスを倒した！";
             enemyAttack = 3;
             isBoss = true;
@@ -51,7 +49,6 @@ public class EnemySC : MonoBehaviour
             if (time > 1.3f)
             {
                 playerSC.Damaged(enemyAttack);
-                Debug.Log(enemyLog);
                 time = 0;
             }
         }
@@ -90,5 +87,6 @@ public class EnemySC : MonoBehaviour
     public void Damaged(int d)
     {
         enemyHP -= d;
+        Debug.Log("●●●●●プレイヤーの攻撃。敵HP -" + PlayerSC.playerAttack);
     }
 }

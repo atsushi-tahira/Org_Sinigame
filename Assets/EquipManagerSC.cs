@@ -61,10 +61,41 @@ public class EquipManagerSC : MonoBehaviour
         Debug.Log(string.Join(",",EquipList.Select(obj => obj)));
     }
 
-    //店を出た時にプレイヤー攻撃力を初期化して、装備品ごとの攻撃力を加算確定
+    //店を出た時にプレイヤー攻撃力・防御力を装備品ごとに確定
     public void BattleEquip()
     {
-        PlayerSC.playerAttack = 1;
-        PlayerSC.playerAttack += equipWeapon == "sword" ? 1 : (equipWeapon == "bow" ? 2 : (equipWeapon == "axe" ? 3 : 0));
+        //武器によって攻撃力を変える
+        if(equipWeapon == "sword")
+        {
+            PlayerSC.playerAttack = 2;
+        }
+        else if (equipWeapon == "bow")
+        {
+            PlayerSC.playerAttack = 3;
+        }
+        else if (equipWeapon == "axe")
+        {
+            PlayerSC.playerAttack = 4;
+        }
+        else if (equipWeapon == "なし")
+        {
+            PlayerSC.playerAttack = 1;
+        }
+
+        //防具によって防御力を変える
+        if (equipArmor == "yoroi")
+        {
+            PlayerSC.playerDifence = 1;
+        }
+        else if (equipArmor == "shield")
+        {
+            PlayerSC.playerDifence = 2;
+        }
+        else if (equipArmor == "なし")
+        {
+            PlayerSC.playerDifence = 0;
+        }
+
+        Debug.Log("プレイヤーの攻撃力は " + PlayerSC.playerAttack + " 。\nプレイヤーの防御力は " + PlayerSC.playerDifence + " 。");
     }
 }
