@@ -6,22 +6,42 @@ using UnityEngine.SceneManagement;
 
 public class PlayerSC : MonoBehaviour
 {
+    //歩くスピード
     public float walkSPD = 0.5f;
-
-    bool isBattle;    
+    //戦闘中かどうか
+    bool isBattle;
+    //攻撃速度
     float time;
+    //接触してる敵の情報
     EnemySC nowEnemy;
+    //所持金
     public static int money = 10;
+    //ガードスキルを使ってるかどうか
     public bool isGuard;
+    //ステージをクリアしたかどうか
     bool isClear;
+    //死んだかどうか
+    bool isDead;
+    //プレイヤーの通常攻撃力と防御力
     public static int playerAttack = 1;
     public static int playerDifence = 0;
-
+    //プレイヤーの初期体力と初期MP
+    [SerializeField]
     public int playerHP = 10;
+    [SerializeField]
+    int playerMP = 10;
+
+    //HPバーとか、ボスを倒した時関連のやつ
     public GameObject gameEndText;
     public Slider hpBar;
+    public Slider mpBar;
+    public Text hpText;
+    public Text mpText;
     public Text equipWeaponName;
     GameObject bossDeadUI;
+
+    //MPのデバッグ用
+    public int abc = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -57,9 +77,23 @@ public class PlayerSC : MonoBehaviour
     void Update()
     {
         //非戦闘時は常に前進する
-        if (!isBattle && !isClear)
+        if (!isBattle)
         {
-            transform.Translate(Vector2.right * (Time.deltaTime * walkSPD));
+            //ゲームクリア、もしくはゲームオーバー出ない限り前に進み続ける
+            if(!isClear && !isDead)
+            {
+                transform.Translate(Vector2.right * (Time.deltaTime * walkSPD));
+            }
+            else
+            {
+                //デバッグ用に一応処理内容を表示させる
+                time += Time.deltaTime;
+                if(time > 1)
+                {
+                    time = 0;
+                    Debug.Log("ゲームオーバー、もしくはクリア");
+                }
+            }
         }
         else
         {
@@ -68,13 +102,30 @@ public class PlayerSC : MonoBehaviour
             time += Time.deltaTime;
             if (time > 1f && !nowEnemy.isDead)
             {
-                nowEnemy.Damaged(playerAttack);;
+                nowEnemy.Damaged(playerAttack);
                 time = 0;
             } 
         }
 
-        //プレイヤーのHPをバーと連動
+        //プレイヤーのHP・MPをバーと連動
         hpBar.value = playerHP;
+        mpBar.value = playerMP;
+        hpText.text = playerHP + "/10";
+        mpText.text = playerMP + "/10";
+        //MPの増減処理
+        if (Input.GetMouseButtonDown(0))
+        {
+            //MPの使用量が０を超える場合、MPが足りない旨を伝える
+            if (playerMP - abc >= 0)
+            {
+                playerMP -= abc;
+                Debug.Log("MPを１消費した");
+            }
+            else
+            {
+                Debug.Log("MPが足りません");
+            }
+        }
 
         //HPが0になるとゲームオーバー。ここはゲームオーバーじゃなくてステージ選択画面に遷移させたい
         if (playerHP <= 0)
@@ -82,7 +133,14 @@ public class PlayerSC : MonoBehaviour
             Debug.Log("ゲームオーバー、、、");
             gameEndText.GetComponent<Text>().text = "GAME OVER ...";
             gameEndText.SetActive(true);
-            Destroy(this.gameObject);
+
+            isBattle = false;
+            isDead = true;
+
+            ////下に落ちていく。これはこれでありかもしれん
+            //GetComponent<BoxCollider2D>().enabled = false;
+
+            //Destroy(this.gameObject);
         }
     }
 
@@ -94,7 +152,6 @@ public class PlayerSC : MonoBehaviour
         {
             isBattle = true;
             nowEnemy = col.gameObject.GetComponent<EnemySC>();
-            Debug.Log("Enemy_Enter");
         }
 
         //アイテムゲット
@@ -115,11 +172,10 @@ public class PlayerSC : MonoBehaviour
         {
             isBattle = false;
             nowEnemy = null;
-            Debug.Log("Enemy_Exit");
         }
     }
 
-    //敵からダメージを受ける時の処理
+    //敵からダメージを受けた時の処理
     public void Damaged(int d)
     {
         //ガードスキルが発動してる場合はダメージを無効化
@@ -135,6 +191,14 @@ public class PlayerSC : MonoBehaviour
             Debug.Log("○○○○○敵の攻撃。" + hitDamage + " ダメージを食らった。");
         }
     }
+
+
+
+
+
+
+
+
 
     //ボスを倒した時の処理
     public IEnumerator BossDead()
