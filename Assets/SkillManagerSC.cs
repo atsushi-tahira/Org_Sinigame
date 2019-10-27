@@ -50,16 +50,62 @@ public class SkillManagerSC : MonoBehaviour
     //一定時間経てば再度ボタンが使用可能
     public IEnumerator Guard()
     {
-        pSC.isGuard = true;
-        yield return new WaitForSeconds(3f);
-        pSC.isGuard = false;
-        yield return new WaitForSeconds(3f);
-        GetComponent<Button>().interactable = true;
+        int useMP = 1;
+        if(pSC.playerMP >= useMP)
+        {
+            Debug.Log("スキル発動　\"ガード\"");
+            pSC.playerMP -= useMP;
+            Color pColor = GameObject.Find("Player").GetComponent<Renderer>().material.color;
+            Color nowColor = pColor;
+            pColor = Color.cyan;
+            pSC.isGuard = true;
+            yield return new WaitForSeconds(3f);
+            pSC.isGuard = false;
+            pColor = nowColor;
+            yield return new WaitForSeconds(3f);
+            GetComponent<Button>().interactable = true;
+        }
+        else
+        {
+            Debug.Log("MPが不足しています");
+        }
+
+       
     }
 
     public void Skill_Heal()
     {
-        pSC.playerHP += 3;
-        GetComponent<Button>().interactable = false;
+        int useMP = 2;
+        if (pSC.playerMP >= useMP)
+        {
+            pSC.playerMP -= useMP;
+            pSC.playerHP += 3;
+            GetComponent<Button>().interactable = false;
+            Debug.Log("スキル発動　\"ヒール\"");
+        }
+        else
+        {
+            Debug.Log("MPが不足しています");
+        }
+    }
+
+    public void Skill_Fire()
+    {
+        
+    }
+
+    public void Skill_PowerUp()
+    {
+        int useMP = 3;
+        if (pSC.playerMP >= useMP)
+        {
+            pSC.playerMP -= useMP;
+            PlayerSC.playerAttack += 1;
+            Debug.Log("スキル発動　\"強化\"");
+        }
+        else
+        {
+            Debug.Log("MPが不足しています");
+        }
     }
 }

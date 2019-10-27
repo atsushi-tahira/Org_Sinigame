@@ -26,10 +26,8 @@ public class PlayerSC : MonoBehaviour
     public static int playerAttack = 1;
     public static int playerDifence = 0;
     //プレイヤーの初期体力と初期MP
-    [SerializeField]
     public int playerHP = 10;
-    [SerializeField]
-    int playerMP = 10;
+    public int playerMP = 10;
 
     //HPバーとか、ボスを倒した時関連のやつ
     public GameObject gameEndText;
@@ -112,20 +110,6 @@ public class PlayerSC : MonoBehaviour
         mpBar.value = playerMP;
         hpText.text = playerHP + "/10";
         mpText.text = playerMP + "/10";
-        //MPの増減処理
-        if (Input.GetMouseButtonDown(0))
-        {
-            //MPの使用量が０を超える場合、MPが足りない旨を伝える
-            if (playerMP - abc >= 0)
-            {
-                playerMP -= abc;
-                Debug.Log("MPを１消費した");
-            }
-            else
-            {
-                Debug.Log("MPが足りません");
-            }
-        }
 
         //HPが0になるとゲームオーバー。ここはゲームオーバーじゃなくてステージ選択画面に遷移させたい
         if (playerHP <= 0)
