@@ -12,6 +12,7 @@ public class SkillManagerSC : MonoBehaviour
     public static List<string> skillList = new List<string>();
 
     PlayerSC pSC;
+    string fireBallPath = "Prefabs/FireBall";
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +21,7 @@ public class SkillManagerSC : MonoBehaviour
         //Debug.Log(string.Join(",", skillList.Select(obj => obj)));
 
         //バトルシーンでのみプレイヤーSCを取得
-        if(SceneManager.GetActiveScene().name == "BattleScene")
+        if (SceneManager.GetActiveScene().name == "BattleScene")
         {
             pSC = GameObject.Find("Player").GetComponent<PlayerSC>();
         }
@@ -29,7 +30,7 @@ public class SkillManagerSC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void ListTest()
@@ -51,7 +52,7 @@ public class SkillManagerSC : MonoBehaviour
     public IEnumerator Guard()
     {
         int useMP = 1;
-        if(pSC.playerMP >= useMP)
+        if (pSC.playerMP >= useMP)
         {
             Debug.Log("スキル発動　\"ガード\"");
             pSC.playerMP -= useMP;
@@ -70,7 +71,7 @@ public class SkillManagerSC : MonoBehaviour
             Debug.Log("MPが不足しています");
         }
 
-       
+
     }
 
     public void Skill_Heal()
@@ -91,7 +92,20 @@ public class SkillManagerSC : MonoBehaviour
 
     public void Skill_Fire()
     {
-        
+        Debug.Log("ファイアスキル発動");
+        int useMP = 2;
+        if (pSC.playerMP >= useMP)
+        {
+            pSC.playerMP -= useMP;
+            GameObject player = GameObject.Find("Player");
+            //オブジェクトをインスタンス化
+            Instantiate((GameObject)Resources.Load(fireBallPath), player.transform.position, Quaternion.identity);
+
+        }
+        else
+        {
+            Debug.Log("MPが不足しています");
+        }
     }
 
     public void Skill_PowerUp()

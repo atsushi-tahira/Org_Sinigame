@@ -87,6 +87,6 @@ public class EnemySC : MonoBehaviour
     public void Damaged(int d)
     {
         enemyHP -= d;
-        Debug.Log("●●●●●プレイヤーの攻撃。敵HP -" + PlayerSC.playerAttack);
+        Debug.Log("●●●●●プレイヤーの攻撃。敵HP -" + d);
     }
 }
