@@ -15,6 +15,10 @@ public class EnemySC : MonoBehaviour
     GameObject coin;
     public bool isBoss;
     public bool isDead;
+    [SerializeField]
+    public Slider eHPBar;
+    [SerializeField]
+    public Text eHPBarText;
     //GameObject bossDeadUI;
 
     // Start is called before the first frame update
@@ -70,6 +74,10 @@ public class EnemySC : MonoBehaviour
                 StartCoroutine(playerSC.BossDead());
             }
         }
+
+        //敵のHPをバーに表示
+        eHPBar.value = enemyHP;
+        eHPBarText.text = enemyHP + "/5";
     }
 
     //プレイヤーと接触すると敵が戦闘モードになる
