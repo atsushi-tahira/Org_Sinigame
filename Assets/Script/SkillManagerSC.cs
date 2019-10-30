@@ -56,9 +56,13 @@ public class SkillManagerSC : MonoBehaviour
         {
             Debug.Log("スキル発動　\"ガード\"");
             pSC.playerMP -= useMP;
+            
             Color pColor = GameObject.Find("Player").GetComponent<Renderer>().material.color;
             Color nowColor = pColor;
+            Debug.Log("現在の色: " + nowColor);
             pColor = Color.cyan;
+            Debug.Log("スキル後の色: " + pColor);
+
             pSC.isGuard = true;
             yield return new WaitForSeconds(3f);
             pSC.isGuard = false;
@@ -70,8 +74,6 @@ public class SkillManagerSC : MonoBehaviour
         {
             Debug.Log("MPが不足しています");
         }
-
-
     }
 
     public void Skill_Heal()
@@ -80,14 +82,22 @@ public class SkillManagerSC : MonoBehaviour
         if (pSC.playerMP >= useMP)
         {
             pSC.playerMP -= useMP;
-            pSC.playerHP += 3;
+            //pSC.playerHP += 3;
+            pSC.playerHP = Mathf.Clamp(pSC.playerHP + 3,0,10);
             GetComponent<Button>().interactable = false;
             Debug.Log("スキル発動　\"ヒール\"");
+            StartCoroutine("CoolDownTime");
         }
         else
         {
             Debug.Log("MPが不足しています");
         }
+    }
+
+    IEnumerator CoolDownTime()
+    {
+        yield return new WaitForSeconds(5f);
+        GetComponent<Button>().interactable = true;
     }
 
     public void Skill_Fire()

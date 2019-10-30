@@ -11,7 +11,7 @@ public class EnemySC : MonoBehaviour
     int enemyHP = 5;
     string enemyDeath;
     PlayerSC playerSC;
-    int enemyAttack;
+    int enemyAttack = 1;
     GameObject coin;
     public bool isBoss;
     public bool isDead;
@@ -24,12 +24,12 @@ public class EnemySC : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (this.gameObject.name == "Enemy")
-        {
-            enemyDeath = "敵１を倒した！";
-            enemyAttack = 1;
-        }
-        else if (this.gameObject.name == "Boss")
+        //if (this.gameObject.name == "Enemy")
+        //{
+        //    enemyDeath = "敵１を倒した！";
+        //    enemyAttack = 1;
+        //}
+        if (this.gameObject.name == "Boss")
         {
             enemyDeath = "ボスを倒した！";
             enemyAttack = 3;
@@ -63,7 +63,7 @@ public class EnemySC : MonoBehaviour
         {
             if (!isBoss)
             {
-                Debug.Log(enemyDeath);
+                //Debug.Log(enemyDeath);
                 Instantiate(coin, this.gameObject.transform.position, Quaternion.identity);
                 Destroy(this.gameObject);
             }
