@@ -19,6 +19,8 @@ public class EnemySC : MonoBehaviour
     public Slider eHPBar;
     [SerializeField]
     public Text eHPBarText;
+    [SerializeField]
+    Slider eAttackGauge;
     //GameObject bossDeadUI;
 
     // Start is called before the first frame update
@@ -78,6 +80,7 @@ public class EnemySC : MonoBehaviour
         //敵のHPをバーに表示
         eHPBar.value = enemyHP;
         eHPBarText.text = enemyHP + "/5";
+        eAttackGauge.value = time;
     }
 
     //プレイヤーと接触すると敵が戦闘モードになる

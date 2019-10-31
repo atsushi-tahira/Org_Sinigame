@@ -31,11 +31,18 @@ public class PlayerSC : MonoBehaviour
 
     //HPバーとか、ボスを倒した時関連のやつ
     public GameObject gameEndText;
+    [SerializeField]
     public Slider hpBar;
+    [SerializeField]
     public Slider mpBar;
+    [SerializeField]
     public Text hpText;
+    [SerializeField]
     public Text mpText;
+    [SerializeField]
     public Text equipWeaponName;
+    [SerializeField]
+    Slider attackGauge;
     GameObject bossDeadUI;
 
     //MPのデバッグ用
@@ -110,6 +117,7 @@ public class PlayerSC : MonoBehaviour
         mpBar.value = playerMP;
         hpText.text = playerHP + "/10";
         mpText.text = playerMP + "/10";
+        attackGauge.value = time;
 
         //HPが0になるとゲームオーバー。ここはゲームオーバーじゃなくてステージ選択画面に遷移させたい
         if (playerHP <= 0)
