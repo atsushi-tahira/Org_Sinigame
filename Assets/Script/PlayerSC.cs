@@ -45,8 +45,8 @@ public class PlayerSC : MonoBehaviour
     Slider attackGauge;
     GameObject bossDeadUI;
 
-    //MPのデバッグ用
-    public int abc = 1;
+    //ラッシュスキルの攻撃ゲージが溜まる速度
+    public float rushSPD = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -104,7 +104,7 @@ public class PlayerSC : MonoBehaviour
         {
             //一定時間経過ごとにプレイヤーに攻撃を与える。攻撃したら経過時間をリセット
             //enemyAttackで個体ごとに攻撃力を設定
-            time += Time.deltaTime;
+            time += Time.deltaTime * rushSPD;
             if (time > 1f && !nowEnemy.isDead)
             {
                 nowEnemy.Damaged(playerAttack);
