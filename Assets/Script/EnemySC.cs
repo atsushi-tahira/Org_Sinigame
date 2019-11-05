@@ -54,9 +54,20 @@ public class EnemySC : MonoBehaviour
             time += Time.deltaTime;
             if (time > 1.3f)
             {
-                playerSC.Damaged(enemyAttack);
-                time = 0;
+                if (this.gameObject.name == "Enemy2")
+                {
+                    Debug.Log("遠距離攻撃");
+                    time = 0;
+                }
+                else
+                {
+                    playerSC.Damaged(enemyAttack);
+                    time = 0;
+                }
+
             }
+
+
         }
 
         //死ぬとログを出して、敵を消す。将来的には衝突判定を消して倒れるっていう感じにしたい
@@ -99,5 +110,16 @@ public class EnemySC : MonoBehaviour
     {
         enemyHP -= d;
         Debug.Log("●●●●●プレイヤーの攻撃。敵HP -" + d);
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        Debug.Log("レンジいん");
+        if (collision.gameObject.tag == "Player")
+        {
+            Debug.Log("レンジいん、プレイヤー");
+
+            isBattle = true;
+        }
     }
 }
